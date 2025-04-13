@@ -1,0 +1,37 @@
+info:
+  name: "Server Backgrounds"
+  identifier: "serverbackgrounds"
+  description: "Server Container Backgrounds for Pterodactyl using Blueprint!"
+  flags: "show_in_sidebar"
+  version: "v1.5.1"
+  target: "beta-2024-12"
+  author: "Euphoria Development"
+  icon: "serverbackgrounds_icon.jpg"
+  website: "https://euphoriadevelopment.uk"
+
+admin:
+  view: "admin/view.blade.php"
+  controller: "admin/Controller.php"
+  css: ""
+  wrapper: ""
+
+dashboard:
+  css: ""
+  wrapper: "client/wrapper.blade.php"
+  components: ""
+
+data:
+  directory: ""
+  public: ""
+  console: ""
+
+requests:
+  views: "src/views"
+  controllers: ""
+  routers:
+    application: ""
+    client: ""
+    web: "routes/web.php"
+
+database:
+  migrations: ""
