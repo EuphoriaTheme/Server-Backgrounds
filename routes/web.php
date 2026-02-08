@@ -1,7 +1,29 @@
 <?php
-Route::get('/server-backgrounds', [Pterodactyl\Http\Controllers\Admin\Extensions\{identifier}\{identifier}ExtensionController::class, 'index'])->name('blueprint.extensions.serverbackgrounds');
-Route::get('/configured-egg-backgrounds', [Pterodactyl\Http\Controllers\Admin\Extensions\{identifier}\{identifier}ExtensionController::class, 'fetchConfiguredEggBackgrounds'])->name('blueprint.extensions.serverbackgrounds.wrapper.styles.import');
-Route::get('/configured-server-backgrounds', [Pterodactyl\Http\Controllers\Admin\Extensions\{identifier}\{identifier}ExtensionController::class, 'fetchConfiguredServerBackgrounds'])->name('blueprint.extensions.serverbackgrounds.wrapper.styles.import');
-Route::post('/admin/extensions/{identifier}/bulk-save', [Pterodactyl\Http\Controllers\Admin\Extensions\{identifier}\{identifier}ExtensionController::class, 'bulkSaveBackgrounds'])->name('blueprint.extensions.serverbackgrounds.bulkSaveSettings');
-Route::post('/admin/extensions/{identifier}/update-delete', [Pterodactyl\Http\Controllers\Admin\Extensions\{identifier}\{identifier}ExtensionController::class, 'updateAndDeleteBackgroundSettings'])->name('blueprint.extensions.serverbackgrounds.updateAndDeleteSettings');
-?>
+
+use Illuminate\Support\Facades\Route;
+use Pterodactyl\Http\Controllers\Admin\Extensions\serverbackgrounds\serverbackgroundsExtensionController;
+
+/*
+ * Blueprint registers this router from `conf.yml` (requests.routers.web).
+ * These routes are mounted under `/extensions/serverbackgrounds`.
+ */
+Route::get('/server-backgrounds', [serverbackgroundsExtensionController::class, 'index'])
+    ->name('blueprint.extensions.serverbackgrounds');
+
+Route::get('/configured-egg-backgrounds', [serverbackgroundsExtensionController::class, 'fetchConfiguredEggBackgrounds'])
+    ->name('blueprint.extensions.serverbackgrounds.api.configured_egg_backgrounds');
+
+Route::get('/configured-server-backgrounds', [serverbackgroundsExtensionController::class, 'fetchConfiguredServerBackgrounds'])
+    ->name('blueprint.extensions.serverbackgrounds.api.configured_server_backgrounds');
+
+Route::get('/api/settings', [serverbackgroundsExtensionController::class, 'getSettings'])
+    ->name('blueprint.extensions.serverbackgrounds.api.settings');
+
+Route::post('/admin/extensions/serverbackgrounds/settings', [serverbackgroundsExtensionController::class, 'updateSettings'])
+    ->name('blueprint.extensions.serverbackgrounds.updateSettings');
+
+Route::post('/admin/extensions/serverbackgrounds/bulk-save', [serverbackgroundsExtensionController::class, 'bulkSaveBackgrounds'])
+    ->name('blueprint.extensions.serverbackgrounds.bulkSaveSettings');
+
+Route::post('/admin/extensions/serverbackgrounds/update-delete', [serverbackgroundsExtensionController::class, 'updateAndDeleteBackgroundSettings'])
+    ->name('blueprint.extensions.serverbackgrounds.updateAndDeleteSettings');

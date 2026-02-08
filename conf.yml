@@ -1,10 +1,14 @@
+## Blueprint addon manifest for Server Backgrounds.
+## identifier should be treated as immutable after release (it is used for install/remove and lookups).
+## target should match the Blueprint release this addon is tested against.
+
 info:
   name: "Server Backgrounds"
   identifier: "serverbackgrounds"
   description: "Server Container Backgrounds for Pterodactyl using Blueprint!"
   flags: "show_in_sidebar"
-  version: "v1.5.1"
-  target: "beta-2024-12"
+  version: "v1.6.0"
+  target: "beta-2026-01"
   author: "Euphoria Development"
   icon: "serverbackgrounds_icon.jpg"
   website: "https://euphoriadevelopment.uk"

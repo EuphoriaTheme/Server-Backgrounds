@@ -1,0 +1,59 @@
+EUPHORIA DEVELOPMENT ADDON LICENSE (SOURCE-AVAILABLE)
+
+Server Backgrounds (Blueprint Addon) for Pterodactyl Panel
+
+Copyright (c) 2026 Euphoria Development
+All rights reserved.
+
+This Software is shared publicly with its source code available (often called "open source") so the
+community can help improve it. However, the terms below restrict redistribution/resale and require
+credits to remain.
+
+IMPORTANT: This is a source-available license. It is not an OSI-approved open-source license.
+
+1. Definitions
+   "Software" means the contents of this repository, including source code, configuration,
+   templates, images/assets, and any accompanying documentation.
+   "You" means any individual or entity that uses, views, copies, or modifies the Software.
+
+2. Allowed Use
+   You are permitted to:
+   - View and use the Software for personal or internal use on your own Pterodactyl/Blueprint
+     installation(s).
+   - Modify the Software for personal or internal use, including customizing it to match your
+     theme and workflow.
+   - Contribute improvements back to the official upstream repository via Pull Requests.
+
+3. No Redistribution / No Resale
+   Redistribution of the Software is NOT permitted as a standalone addon/download (original or
+   modified), whether for free or for a fee.
+
+   Exception: You may create a fork/copy only as needed to develop and submit a Pull Request (or
+   patch) to the official upstream repository. You must not use forks to publish releases, provide
+   downloads, or otherwise distribute the addon.
+
+   Without limiting the above, you may NOT:
+   - Sell, resell, rent, lease, sublicense, or commercially host/distribute the Software.
+   - Publish, re-upload, mirror, or otherwise redistribute the Software or derivatives to any
+     third party (for example: marketplaces, "addon packs", paid/free download sites, or
+     other repositories), except as described in the exception above.
+
+4. Attribution / Credits Must Remain
+   You must keep original credits within the addon.
+   You may not remove or alter existing attribution, including (but not limited to) author,
+   project name, and identifier/branding references that appear in files such as the manifest
+   (`conf.yml`), admin views, and documentation.
+
+5. Contributions
+   If you submit a Pull Request or otherwise contribute code/content intended for inclusion in
+   the upstream project, you grant Euphoria Development a perpetual, worldwide, irrevocable,
+   royalty-free license to use, modify, relicense, and distribute your contribution as part of
+   the Software under this license (or future versions of it).
+
+6. No Warranty
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+   PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+   FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.

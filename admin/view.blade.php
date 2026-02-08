@@ -1,3 +1,6 @@
+<?php
+    $disable_for_admins = $blueprint->dbGet("serverbackgrounds", 'disable_for_admins');
+?>
 <style>
     /* Container styles */
     .box {
@@ -122,9 +125,8 @@
             <div class="box-body">
                 Identifier: <code>{identifier}</code><br>
                 Uninstall using: <code>blueprint -remove {identifier}</code><br>
-                If any errors occur use redprint! <code>bash <(curl -s https://redprint.zip)</code><br>
                 Get support via <a href="https://discord.gg/Cus2zP4pPH" target="_blank" rel="noopener noreferrer">Discord</a><br>
-                Want an easier setup? Host your Images using <a href="https://api.euphoriadevelopment.uk" target="_blank" rel="noopener noreferrer">Our API</a><br>
+                Want an easier setup? Host your Images using <a href="https://github.com/EuphoriaTheme/Resource-Manager" target="_blank" rel="noopener noreferrer">Resource Manager</a><br>
             </div>
         </div>
     </div>
@@ -132,6 +134,34 @@
 
 <br>
 
+<!-- Addon Settings (Performance) -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Addon Settings</h3>
+    </div>
+    <form action="{{ route('blueprint.extensions.serverbackgrounds.updateSettings') }}" method="POST">
+        @csrf
+        <div class="box-body">
+            <div class="form-group">
+                <label>Disable Backgrounds for Admin Users</label><br>
+                <small style="color: var(--gray-300);">
+                    Recommended for large installations. When enabled, root admins will not see server backgrounds.
+                </small>
+                <div class="form-check form-check-inline" style="margin-top: 10px;">
+                    <input class="form-check-input" type="radio" name="disable_for_admins" id="disable_for_admins_yes" value="1" {{ old('disable_for_admins', $disable_for_admins ?? false) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="disable_for_admins_yes" style="color: var(--white);">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="disable_for_admins" id="disable_for_admins_no" value="0" {{ old('disable_for_admins', $disable_for_admins ?? false) ? '' : 'checked' }}>
+                    <label class="form-check-label" for="disable_for_admins_no" style="color: var(--white);">No</label>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary mt-2">Save Settings</button>
+        </div>
+    </form>
+</div>
 <!-- Bulk Set Backgrounds Form -->
 <div class="box box-primary">
     <div class="box-header with-border">
