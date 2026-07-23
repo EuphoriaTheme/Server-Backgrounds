@@ -19,6 +19,15 @@ Route::get('/configured-server-backgrounds', [serverbackgroundsExtensionControll
 Route::get('/api/settings', [serverbackgroundsExtensionController::class, 'getSettings'])
     ->name('blueprint.extensions.serverbackgrounds.api.settings');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/user/server-background', [serverbackgroundsExtensionController::class, 'fetchUserServerBackground'])
+        ->name('blueprint.extensions.serverbackgrounds.api.user_server_background.fetch');
+    Route::post('/user/server-background', [serverbackgroundsExtensionController::class, 'saveUserServerBackground'])
+        ->name('blueprint.extensions.serverbackgrounds.api.user_server_background.save');
+    Route::get('/api/user-server-backgrounds', [serverbackgroundsExtensionController::class, 'fetchUserServerBackgrounds'])
+        ->name('blueprint.extensions.serverbackgrounds.api.user_server_backgrounds');
+});
+
 Route::post('/admin/extensions/serverbackgrounds/settings', [serverbackgroundsExtensionController::class, 'updateSettings'])
     ->name('blueprint.extensions.serverbackgrounds.updateSettings');
 

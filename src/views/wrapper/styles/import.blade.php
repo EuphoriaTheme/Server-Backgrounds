@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let serversByIdentifier = new Map();
     let eggBackgroundsById = new Map();
     let serverBackgroundsByUuid = new Map();
+    let userBackgroundsByUuid = new Map();
     let fetchInFlight = null;
 
     const resetCache = () => {
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         serversByIdentifier = new Map();
         eggBackgroundsById = new Map();
         serverBackgroundsByUuid = new Map();
+        userBackgroundsByUuid = new Map();
     };
 
     const loadSettings = async () => {
@@ -81,19 +83,22 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch(apiUrl).then((r) => r.json()),
             fetch(`${EXT_BASE}/configured-egg-backgrounds`).then((r) => r.json()),
             fetch(`${EXT_BASE}/configured-server-backgrounds`).then((r) => r.json()),
+            fetch(`${EXT_BASE}/api/user-server-backgrounds`).then((r) => (r.ok ? r.json() : { backgrounds: {} })),
         ])
-            .then(([serverData, configuredEggs, configuredServerBackgrounds]) => {
+            .then(([serverData, configuredEggs, configuredServerBackgrounds, userBackgrounds]) => {
                 cacheKey = key;
                 serversByIdentifier = new Map();
                 eggBackgroundsById = new Map();
                 serverBackgroundsByUuid = new Map();
+                userBackgroundsByUuid = new Map(Object.entries(userBackgrounds?.backgrounds || {}));
 
                 if (serverData && Array.isArray(serverData.data)) {
                     for (const server of serverData.data) {
                         const attrs = server?.attributes;
                         const identifier = attrs?.identifier;
                         const uuid = attrs?.uuid;
-                        const eggId = attrs?.BlueprintFramework?.egg_id;
+                        const blueprintData = attrs?.BlueprintFramework || attrs?.blueprintFramework || {};
+                        const eggId = blueprintData?.eggId ?? blueprintData?.egg_id ?? attrs?.eggId ?? attrs?.egg_id ?? attrs?.egg?.id;
 
                         if (typeof identifier === 'string' && typeof uuid === 'string' && eggId !== undefined && eggId !== null) {
                             serversByIdentifier.set(identifier, { uuid, egg_id: eggId });
@@ -158,7 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const serverBg = serverBackgroundsByUuid.get(server.uuid);
             const eggBg = eggBackgroundsById.get(String(server.egg_id));
-            const chosen = serverBg || eggBg;
+            const userBgUrl = userBackgroundsByUuid.get(server.uuid);
+            const chosen = userBgUrl ? { image_url: userBgUrl, opacity: 1 } : serverBg || eggBg;
 
             const imageUrl = chosen?.image_url;
             const existing = container.querySelector(`.${BACKGROUND_CLASS}`);

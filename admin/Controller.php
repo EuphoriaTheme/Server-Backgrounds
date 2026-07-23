@@ -35,6 +35,8 @@ class serverbackgroundsExtensionController extends Controller
     private const KEY_SERVER_INDEX = 'server_background_index';
     private const KEY_EGG_INDEX = 'egg_background_index';
 
+    private const USER_BACKGROUND_KEY_PREFIX = 'user_server_background_';
+
     public function __construct(
         private ViewFactory $view,
         private BlueprintExtensionLibrary $blueprint,
@@ -75,6 +77,85 @@ class serverbackgroundsExtensionController extends Controller
             'disable_for_admins' => $disableForAdmins,
             'user_is_admin' => $userIsAdmin,
         ];
+    }
+
+    public function fetchUserServerBackground(Request $request)
+    {
+        $serverUuid = trim((string) $request->query('server_uuid', ''));
+        $this->assertUserOwnsServer($request, $serverUuid);
+
+        return response()->json([
+            'success' => true,
+            'server_uuid' => $serverUuid,
+            'background_url' => (string) $this->blueprint->dbGet(
+                self::NAMESPACE,
+                $this->userBackgroundKey($request->user()->id, $serverUuid),
+                ''
+            ),
+        ]);
+    }
+
+    public function saveUserServerBackground(Request $request)
+    {
+        $request->validate([
+            'server_uuid' => ['required', 'string', 'regex:/^[A-Za-z0-9-]{1,64}$/'],
+            'background_url' => ['nullable', 'string', 'max:2048', 'url', 'regex:/^https?:\/\//i'],
+        ]);
+
+        $serverUuid = trim((string) $request->input('server_uuid'));
+        $this->assertUserOwnsServer($request, $serverUuid);
+        $backgroundUrl = trim((string) $request->input('background_url', ''));
+
+        $this->blueprint->dbSet(
+            self::NAMESPACE,
+            $this->userBackgroundKey($request->user()->id, $serverUuid),
+            $backgroundUrl
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => $backgroundUrl === '' ? 'Server background reset successfully.' : 'Server background saved successfully.',
+            'background_url' => $backgroundUrl,
+        ]);
+    }
+
+    public function fetchUserServerBackgrounds(Request $request)
+    {
+        $user = $request->user();
+        $backgrounds = [];
+
+        $servers = Server::query()
+            ->select(['uuid'])
+            ->whereHas('users', static fn ($query) => $query->where('users.id', $user->id))
+            ->get();
+
+        foreach ($servers as $server) {
+            $backgroundUrl = (string) $this->blueprint->dbGet(
+                self::NAMESPACE,
+                $this->userBackgroundKey($user->id, $server->uuid),
+                ''
+            );
+
+            if ($backgroundUrl !== '') {
+                $backgrounds[$server->uuid] = $backgroundUrl;
+            }
+        }
+
+        return response()->json(['success' => true, 'backgrounds' => $backgrounds]);
+    }
+
+    private function assertUserOwnsServer(Request $request, string $serverUuid): void
+    {
+        if ($serverUuid === '' || !Server::where('uuid', $serverUuid)
+            ->whereHas('users', static fn ($query) => $query->where('users.id', $request->user()->id))
+            ->exists()) {
+            throw new AccessDeniedHttpException();
+        }
+    }
+
+    private function userBackgroundKey(int|string $userId, string $serverUuid): string
+    {
+        return self::USER_BACKGROUND_KEY_PREFIX . $userId . '_' . $serverUuid . '_image_url';
     }
 
     /**

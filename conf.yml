@@ -8,7 +8,7 @@ info:
   description: "Server Container Backgrounds for Pterodactyl using Blueprint!"
   flags: "show_in_sidebar"
   version: "v1.6.0"
-  target: "beta-2026-01"
+  target: "beta-2026-06"
   author: "Euphoria Development"
   icon: "serverbackgrounds_icon.jpg"
   website: "https://euphoriadevelopment.uk"
@@ -22,7 +22,7 @@ admin:
 dashboard:
   css: ""
   wrapper: "client/wrapper.blade.php"
-  components: ""
+  components: "components"
 
 data:
   directory: ""
